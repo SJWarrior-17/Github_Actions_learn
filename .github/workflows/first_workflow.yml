@@ -6,8 +6,14 @@ jobs:
     first_job:
         runs-on: ubuntu-latest
         steps:
+        - name: Github Checkout
+          uses: actions/checkout@v6
+
         - name: Welcome Msg
           run: echo "Hello SJ. Good to see you, start learning GitHub Actions"
 
         - name: List the Files & Directories
           run: ls -ltr
+
+        - name: View the file content
+          run: cat README.md
