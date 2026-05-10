@@ -9,11 +9,14 @@ jobs:
         - name: Github Checkout
           uses: actions/checkout@v6
 
-        - name: Welcome Msg
-          run: echo "Hello SJ. Good to see you, start learning GitHub Actions"
+        - name: Multi-line CMD
+          run: |
+           echo "Hello SJ. Good to see you, start learning GitHub Actions"
+           ls -ltra
+           cat README.md
 
-        - name: List the Files & Directories
-          run: ls -ltr
+        # - name: List the Files & Directories
+        #   run: ls -ltr
 
-        - name: View the file content
-          run: cat README.md
+        # - name: View the file content
+        #   run: cat README.md
