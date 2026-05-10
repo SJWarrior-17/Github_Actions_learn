@@ -7,7 +7,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
         - name: Welcome Msg
-          run: echo "Hello SJ"
-          
+          run: echo "Hello SJ. Good to see you, start learning GitHub Actions"
+
         - name: List the Files & Directories
           run: ls -ltr
