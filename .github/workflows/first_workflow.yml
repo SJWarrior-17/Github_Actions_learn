@@ -1,0 +1,13 @@
+name: My_First_Test_Workflow
+
+on : push
+
+jobs:
+    first_job:
+        runs-on: ubuntu-latest
+        steps:
+        - name: Welcome Msg
+          run: echo "Hello SJ"
+          
+        - name: List the Files & Directories
+          run: ls -ltr
