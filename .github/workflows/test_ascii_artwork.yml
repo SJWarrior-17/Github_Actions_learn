@@ -1,0 +1,26 @@
+name: ASCII Artwork
+
+on: push
+
+jobs:
+    ascii_artwork:
+        runs-on: ubuntu-latest
+        steps:
+        - name: Github Checkout
+          uses: actions/checkout@v6
+        
+        - name: Installing Cowsay
+          run : sudo apt-get install cowsay -y
+
+        - name: Executing Cowsay CMD
+          run: cowsay -f dragon "Fahh" >> fahh.txt
+        
+        - name: Validate the file
+          run: grep -i "fahh" fahh.txt
+
+        - name: Read the file
+          run: cat fahh.txt
+
+        - name: Checkout the REPO 
+          run: ls -ltra
+
