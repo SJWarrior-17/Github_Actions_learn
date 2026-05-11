@@ -1,0 +1,20 @@
+name: ASCII Artwork 2
+
+on: push
+
+jobs:
+    ascii_artwork_using_shell_script:
+        runs-on: ubuntu-latest
+        steps:
+        - name: Checkout in the REPO
+          uses: actions/checkout@v6
+        
+        - name: List the files within the REPO
+          run: ls -ltra
+        
+        - name: Executing Shell Script
+          run : |
+           chmod +x ascii_artwork.sh
+           ./ascii_artwork.sh
+
+        
