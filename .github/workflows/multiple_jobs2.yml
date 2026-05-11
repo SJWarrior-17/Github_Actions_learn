@@ -1,0 +1,53 @@
+name: Concept about multiple_jobs
+
+on: push
+
+jobs:
+    build_job1:
+        runs-on: ubuntu-latest
+        steps:
+        - name: Cowsay Installation
+          run: sudo apt-get install cowsay -y
+        
+        - name: Write the content using cowsay
+          run: cowsay -f turtle "Best of luck SJ for upcoming lessons" >> turtle.txt
+        
+        - name: List the files
+          run: ls -ltra
+        
+        - name: Read the file
+          run: cat turtle.txt
+        
+        - name: sleep for 10 seconds
+          run: sleep 10
+
+    test_job2:
+        needs: build_job1
+        runs-on: ubuntu-latest
+        steps:
+        - name: sleep for 5 seconds
+          run: sleep 5
+
+        - name: Test file exists here
+          run: grep -i "SJ" turtle.txt
+
+    deploy_job3:
+        needs: [test_job2]
+        runs-on: ubuntu-latest
+        steps:
+        - name: Read the file
+          run: cat turtle.txt
+        
+        - name: Deploy
+          run: echo "Deploying......."
+
+# ##What the above script (Version 2) does
+# 1. The jobs follow a defined execution sequence and run one after another. It became possible by using "needs" keyword in jobs section
+# 2. Each job executes on a separate virtual machine, while all jobs use the same OS image: ubuntu-latest.
+# 3. The above workflow will still fail because the required file is not available.
+
+# ##Problem Statement Addressed in the above code
+# 1. The jobs now follow a specific execution order.
+
+# ##Remaining Problem Statement (Version 2)
+# Since the jobs run on separate virtual machines, resources or outputs generated in one job are not directly accessible to other jobs in the workflow.
