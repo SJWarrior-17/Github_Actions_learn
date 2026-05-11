@@ -1,0 +1,67 @@
+name: Concept about multiple_jobs_3
+
+on: push
+
+jobs:
+    build_job1:
+        runs-on: ubuntu-latest
+        steps:
+        - name: Cowsay Installation
+          run: sudo apt-get install cowsay -y
+        
+        - name: Write the content using cowsay
+          run: cowsay -f turtle "Best of luck SJ for upcoming lessons" >> turtle.txt
+        
+        - name: List the files
+          run: ls -ltra
+        
+        - name: Read the file
+          run: cat turtle.txt
+        
+        - name: Uploading turtle file
+          uses: actions/upload-artifact@v7
+          with:
+            path: turtle.txt
+            archive: false
+
+    test_job2:
+        needs: build_job1
+        runs-on: ubuntu-latest
+        steps:        
+        - name: Downloading turtle file in test_job2
+          uses: actions/download-artifact@v8
+          with:
+            name: turtle.txt
+
+        - name: Test file exists here
+          run: grep -i "SJ" turtle.txt
+
+
+    deploy_job3:
+        needs: [test_job2]
+        runs-on: ubuntu-latest
+        steps:
+        - name: Downloading turtle file in deploy_job3
+          uses: actions/download-artifact@v8
+          with:
+            name: turtle.txt
+
+        - name: Read the file
+          run: cat turtle.txt
+        
+        - name: Deploy
+          run: echo "Deploying......."
+
+# ##What the above script (Version 2) does
+# 1. The jobs follow a defined execution sequence and run one after another. It became possible by using "needs" keyword in jobs section
+# 2. The Jobs workflow graph is dependent now.
+# 3. Each job executes on a separate virtual machine, while all jobs use the same OS image: ubuntu-latest.
+# 4. Files and Artfacts will avaiable in next job with the help of "actions" from market place.
+# 5. actions name: "Upload a Build Artifact" and "Downlaod a Build Artifact"
+
+# ##Problem Statement Addressed in the above code
+# 1. The jobs now follow a specific execution order.
+# 2. Files are available in other jobs as well
+
+# ##Remaining Problem Statement (Version 2)
+# Since the jobs run on separate virtual machines, resources or outputs generated in one job are not directly accessible to other jobs in the workflow.
