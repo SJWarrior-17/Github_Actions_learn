@@ -1,4 +1,4 @@
-name: Concept about multiple_jobs
+name: Concept about multiple_jobs_2
 
 on: push
 
@@ -43,6 +43,7 @@ jobs:
 
 # ##What the above script (Version 2) does
 # 1. The jobs follow a defined execution sequence and run one after another. It became possible by using "needs" keyword in jobs section
+# 2. The Jobs workflow graph is dependent now.
 # 2. Each job executes on a separate virtual machine, while all jobs use the same OS image: ubuntu-latest.
 # 3. The above workflow will still fail because the required file is not available.
 
