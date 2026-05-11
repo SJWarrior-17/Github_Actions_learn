@@ -1,0 +1,49 @@
+name: Concept about multiple_jobs
+
+on: push
+
+jobs:
+    build_job1:
+        runs-on: ubuntu-latest
+        steps:
+        - name: Cowsay Installation
+          run: sudo apt-get install cowsay -y
+        
+        - name: Write the content using cowsay
+          run: cowsay -f turtle "Best of luck SJ for upcoming lessons" >> turtle.txt
+        
+        - name: List the files
+          run: ls -ltra
+        
+        - name: Read the file
+          run: cat turtle.txt
+        
+        - name: sleep for 10 seconds
+          run: sleep 10
+
+    test_job2:
+        runs-on: ubuntu-latest
+        steps:
+        - name: sleep for 5 seconds
+          run: sleep 5
+
+        - name: Test file exists here
+          run: grep -i "SJ" turtle.txt
+
+    deploy_job3:
+        runs-on: ubuntu-latest
+        steps:
+        - name: Read the file
+          run: cat turtle.txt
+        
+        - name: Deploy
+          run: echo "Deploying......."
+
+# ## What the above script (Version 1) does
+# 1. It runs three jobs in parallel by default.
+# 2. Each job executes on a separate virtual machine, while all of them use the same OS image: ubuntu-latest.
+# 3. The jobs do not follow any specific execution order.
+# 4. The above workflow will fail, as the file is not available.
+# ## Problem Statement
+# 1. There is no control over the execution order of the jobs.
+# 2. Since the jobs run in parallel on separate virtual machines, resources or outputs from one job are not directly accessible to the other jobs in the above code.        
