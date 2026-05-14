@@ -2,7 +2,8 @@ name: Learning about triggering workflow 1
 
 on:
   schedule:
-  - cron: "*/1 * * * *"
+  - cron: "*/5 * * * *"
+    timezone: "Asia/Calcutta"
 
 env:
   CON_REG: docker.io
