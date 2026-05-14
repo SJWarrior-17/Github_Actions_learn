@@ -1,0 +1,37 @@
+name: Learning about job_concurrency 1
+
+# Job concurreny can be applied at Workflow level as well as at job level
+# in this example we are applying at job level
+on:
+    workflow_dispatch:
+
+env:
+  CON_REG: docker.io
+  UNAME: tester
+  IMAGE_NAME: new_test_nginx
+
+jobs:
+    docker:
+      runs-on: ubuntu-latest
+      steps:
+      - name: Docker Build
+        run: echo docker build -t $CON_REG/$UNAME/$IMAGE_NAME:latest
+        
+      - name: Docker Login
+        run: echo docker login --username=${{ vars.DOCKER_UNAME }} --password=${{ secrets.DOCKER_PASS }}
+
+      - name: Docker Publish
+        run: echo docker push -t $CON_REG/$UNAME/$IMAGE_NAME:latest
+    
+    deploy:
+      concurrency: 
+        group: example_concurrency
+        cancel-in-progress: true
+        # In this example, "deploy" is part of a concurrency group named "example_concurrency". This means that if a new run of "deploy" is triggered, any runs of the same job in the "example_concurrency" concurrency group that are already in progress will be cancelled.
+      runs-on: ubuntu-latest
+      needs: docker
+      steps:
+      - name: Docker Run
+        run: |
+          echo docker run -d -p 8080:80 $CON_REG/$UNAME/$IMAGE_NAME:latest
+          sleep 100
