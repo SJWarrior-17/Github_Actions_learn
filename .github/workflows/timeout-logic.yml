@@ -1,0 +1,36 @@
+name: Learning about timeout-minutes
+
+# timeout-minutes can be used at Job level and as well as at step level
+# In GitHub Actions, timeout-minutes ensures that a job or step does not run longer than the specified number of minutes.
+on: 
+    push
+
+env:
+  CON_REG: docker.io
+  UNAME: tester
+  IMAGE_NAME: new_test_nginx
+
+jobs:
+    docker:
+      runs-on: ubuntu-latest
+      steps:
+      - name: Docker Build
+        run: echo docker build -t $CON_REG/$UNAME/$IMAGE_NAME:latest
+        
+      - name: Docker Login
+        run: echo docker login --username=${{ vars.DOCKER_UNAME }} --password=${{ secrets.DOCKER_PASS }}
+
+      - name: Docker Publish
+        run: echo docker push -t $CON_REG/$UNAME/$IMAGE_NAME:latest
+    
+    deploy:
+      # If "timeout-minutes" is defined at the job level, it allows the specified time for the job to complete.
+      runs-on: ubuntu-latest
+      needs: docker
+      steps:
+      - name: Docker Run
+        timeout-minutes: 1
+        # If "timeout-minutes" is defined at the step level, it allows the specified time for the step to complete.
+        run: |
+          echo docker run -d -p 8080:80 $CON_REG/$UNAME/$IMAGE_NAME:latest
+          sleep 100
