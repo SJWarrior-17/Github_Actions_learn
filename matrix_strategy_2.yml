@@ -1,0 +1,26 @@
+name: exploring matrix strategy
+
+# The matrix strategy in GitHub Actions allows you to run a single job multiple times using different variable combinations. It is commonly used for cross-platform testing, such as running the same test suite against multiple operating systems and programming language versions simultaneously.
+# In this example we are using mutiple os and images for test.
+
+on: push
+
+jobs:
+    deploy:
+        strategy:
+          matrix:
+            os: [ubuntu-latest, ubuntu-22.04, windows-latest]
+            images: [hello-world, alpine]
+            exclude:
+              - images: alpine
+                os: windows-latest
+            include:
+              - images: amd64/alpine
+                os: ubuntu-22.04
+        runs-on: ${{ matrix.os }}
+        steps:
+        - name: Echo Docker Details
+          run: docker info
+
+        - name: Run Image ${{ matrix.images }}
+          run: docker run ${{ matrix.images }}
