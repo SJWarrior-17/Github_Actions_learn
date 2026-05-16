@@ -8,13 +8,15 @@ on: push
 jobs:
     deploy:
         strategy:
+          fail-fast: false #By default its true, GitHub cancels all in-progress jobs if any matrix job fails
+          max-parallel: 2 #The maximum number of jobs that can run simultaneously when using a matrix job strategy.
           matrix:
             os: [ubuntu-latest, ubuntu-22.04, windows-latest]
             images: [hello-world, alpine]
-            exclude:
+            exclude: #To remove specific configurations defined in the matrix
               - images: alpine
                 os: windows-latest
-            include:
+            include: #Use include to expand existing matrix configurations or to add new configurations. The
               - images: amd64/alpine
                 os: ubuntu-22.04
         runs-on: ${{ matrix.os }}
