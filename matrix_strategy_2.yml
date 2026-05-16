@@ -1,4 +1,4 @@
-name: exploring matrix strategy
+name: exploring matrix strategy additional parameters
 
 # The matrix strategy in GitHub Actions allows you to run a single job multiple times using different variable combinations. It is commonly used for cross-platform testing, such as running the same test suite against multiple operating systems and programming language versions simultaneously.
 # In this example we are using mutiple os and images for test.
