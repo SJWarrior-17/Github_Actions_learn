@@ -25,3 +25,5 @@ jobs:
       steps:
       - name: Event_Logs
         run: echo this workflow/job/step executed for event type - ${{ github.event_name }}
+
+# Reference: https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows
