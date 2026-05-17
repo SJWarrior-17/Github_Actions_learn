@@ -1,0 +1,32 @@
+name: exploing expressions
+
+on: push
+
+env:
+  CON_REG: docker.io
+  UNAME: tester
+  IMAGE_NAME: new_test_nginx
+
+jobs:
+    docker:
+      runs-on: ubuntu-latest
+      steps:
+      - name: Docker Build
+        run: echo docker build -t $CON_REG/$UNAME/$IMAGE_NAME:latest
+        
+      - name: Docker Login
+        run: echo docker login --username=${{ vars.DOCKER_UNAME }} --password=${{ secrets.DOCKER_PASS }}
+
+      - name: Docker Publish
+        run: echo docker push -t $CON_REG/$UNAME/$IMAGE_NAME:latest
+    
+    deploy:
+      if: github.ref == 'refs/heads/main'
+      runs-on: ubuntu-latest
+      needs: docker
+      steps:
+      - name: Docker Run
+        run: echo docker run -d -p 8080:80 $CON_REG/$UNAME/$IMAGE_NAME:latest
+#Reference Link:
+#https://docs.github.com/en/actions/concepts/workflows-and-actions/expressions?versionId=free-pro-team%40latest&productId=actions&restPage=reference%2Cworkflows-and-actions%2Ccontexts
+#https://docs.github.com/en/actions/reference/workflows-and-actions/expressions
