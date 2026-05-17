@@ -25,4 +25,3 @@ jobs:
       steps:
       - name: Event_Logs
         run: echo this workflow/job/step executed for event type - ${{ github.event_name }}
-        
