@@ -17,13 +17,10 @@ jobs:
           kubectl get pods -A
           kubectl get pods -n ingress-nginx
           kubectl get svc -n ingress-nginx
-          kubectl -n ingress-nginx get svc -o yaml
-          echo -e "\n"
-          kubectl -n ingress-nginx get svc -o json
 
       - name: Fetching ingress controller IP detils and store in GitHub actions Environment Variables
         run: |
-          echo "INGRESS_IP=$(kubectl get svc ingress-nginx-controller -n ingress-nginx -o jsonpath='{.status.loadBalancer.ingress[0].ip}')" >> "$GITHUB_ENV"
+          echo "INGRESS_IP=$(kubectl get svc ingress-nginx-controller -n ingress-nginx -o jsonpath='{.spec.clusterIP}')" >> "$GITHUB_ENV"
           echo ${{ env.INGRESS_IP }}
 
     
