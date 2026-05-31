@@ -1,0 +1,20 @@
+name: Test-MiniKube-Cluster
+on:
+  - push
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: start minikube
+        id: minikube
+        uses: medyagh/setup-minikube@latest
+        with:
+          addons: ingress
+      # now you can run kubectl to see the pods in the cluster
+      - name: kubectl
+        run: | 
+          kubectl get pods -A
+          kubectl get pods -n nginx-ingress
+          kubectl get svc -n nginx-ingress
+
+    
