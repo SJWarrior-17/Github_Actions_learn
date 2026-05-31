@@ -9,6 +9,7 @@ jobs:
         id: minikube
         uses: medyagh/setup-minikube@latest
         with:
+          cache: true
           addons: ingress
       # now you can run kubectl to see the pods in the cluster
       - name: kubectl
@@ -16,9 +17,9 @@ jobs:
           kubectl get pods -A
           kubectl get pods -n ingress-nginx
           kubectl get svc -n ingress-nginx
-          kubectl get svc -o yaml
+          kubectl -n ingress-nginx get svc -o yaml
           echo -e "\n"
-          kubectl get svc -o json
+          kubectl -n ingress-nginx get svc -o json
 
       - name: Fetching ingress controller IP detils and store in GitHub actions Environment Variables
         run: |
